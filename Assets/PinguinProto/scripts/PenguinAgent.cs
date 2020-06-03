@@ -33,6 +33,8 @@ public class PenguinAgent : Agent
         penguinArea = GetComponentInParent<PenguinArea>();
         baby = penguinArea.penguinBaby;
         rigidbody = GetComponent<Rigidbody>();
+
+        Debug.Log("init");
     }
 
     /// <summary>
@@ -41,6 +43,7 @@ public class PenguinAgent : Agent
     /// <param name="vectorAction">The list of actions to take</param>
     public override void OnActionReceived(float[] vectorAction)
     {
+        Debug.Log("move");
         // Convert the first action to forward movement
         float forwardAmount = vectorAction[0];
 
@@ -72,15 +75,18 @@ public class PenguinAgent : Agent
     public override void Heuristic(float[] actionsOut)
     {
 
+        Debug.Log("move");
+
         actionsOut[0] = 0f;
         actionsOut[1] = 0f;
 
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.W))
         {
+            Debug.Log("move");
             // move forward
             actionsOut[0] = 1f;
         }
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.A))
         {
             // turn left
             actionsOut[1] = 1f;
@@ -125,6 +131,7 @@ public class PenguinAgent : Agent
 
     private void FixedUpdate()
     {
+        RequestDecision();
         // Test if the agent is close enough to to feed the baby
         if (Vector3.Distance(transform.position, baby.transform.position) < feedRadius)
         {
