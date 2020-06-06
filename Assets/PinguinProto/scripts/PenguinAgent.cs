@@ -33,6 +33,8 @@ public class PenguinAgent : Agent
         penguinArea = GetComponentInParent<PenguinArea>();
         baby = penguinArea.penguinBaby;
         rigidbody = GetComponent<Rigidbody>();
+
+        Debug.Log("init");
     }
 
     /// <summary>
@@ -75,12 +77,12 @@ public class PenguinAgent : Agent
         actionsOut[0] = 0f;
         actionsOut[1] = 0f;
 
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.W))
         {
             // move forward
             actionsOut[0] = 1f;
         }
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.A))
         {
             // turn left
             actionsOut[1] = 1f;
@@ -125,6 +127,7 @@ public class PenguinAgent : Agent
 
     private void FixedUpdate()
     {
+        RequestDecision();
         // Test if the agent is close enough to to feed the baby
         if (Vector3.Distance(transform.position, baby.transform.position) < feedRadius)
         {
