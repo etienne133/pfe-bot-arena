@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+//using System.Numerics;
 using Unity.Mathematics;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
@@ -82,8 +83,11 @@ public class BattleAgent: Agent
         {
             Shoot();
         }
+        //Modulate for Max speed! Do here to prevent ai from cheating...
+        Vector3 movementVector = new Vector3(vectorAction[1],0f, vectorAction[2]);
+        movementVector = Vector3.ClampMagnitude(movementVector,1f);
 
-        Rb.velocity = new Vector3(vectorAction[1] * speed, 0f, vectorAction[2] * speed);
+        Rb.velocity = new Vector3(movementVector.x * speed, 0f, movementVector.z * speed);
         transform.Rotate(Vector3.up, vectorAction[3] * rotationSpeed);
     }
 
