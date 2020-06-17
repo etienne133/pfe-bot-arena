@@ -100,9 +100,15 @@ public class BattleAgent: Agent
     public override void Heuristic(float[] actionsOut)
     {
         actionsOut[0] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
-        actionsOut[3] = Input.GetAxis("Horizontal");
-        //actionsOut[1] = -Input.GetAxis("Vertical");
+        //Side momentum
+        actionsOut[1] = Input.GetAxis("Horizontal");
+        //Forward momentum
         actionsOut[2] = Input.GetAxis("Vertical");
+        //rotation
+        float rotation = 0f;
+        if (Input.GetKey(KeyCode.Q)) rotation = -1f;
+        else if(Input.GetKey(KeyCode.E)) rotation = 1f;
+        actionsOut[3] = rotation;
     }
 
     public override void OnEpisodeBegin()
