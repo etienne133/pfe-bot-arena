@@ -43,8 +43,8 @@ public class BattleAgent: Agent
         var spawnedProjectile = Instantiate(projectile, shootingPoint.position, Quaternion.Euler(0f, -90f, 0f));
         spawnedProjectile.SetDirection(direction);
 
+        // If we see an enemy...
         Debug.DrawRay(transform.position, direction, Color.blue, 1f);
-
         if (Physics.Raycast(shootingPoint.position, direction, out var hit, 200f, layerMask))
         {
             //hit.transform.GetComponent<Enemy>().GetShot(damage, this);
@@ -60,13 +60,18 @@ public class BattleAgent: Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        // "can shoot"
         sensor.AddObservation(ShotAvaliable);
-        //Add Angle Y
+
+        //consider it's own position.
+        sensor.AddObservation(this.transform.position);
     }
 
     private void FixedUpdate()
     {
+        // Can be changed to take less decisions if we want
         RequestDecision();
+
         if (!ShotAvaliable)
         {
             StepsUntilShotIsAvaliable--;
@@ -88,6 +93,7 @@ public class BattleAgent: Agent
         movementVector = Vector3.ClampMagnitude(movementVector,1f);
 
         Rb.velocity = new Vector3(movementVector.x * speed, 0f, movementVector.z * speed);
+        //Rb.AddForce(movementVector * speed);
         transform.Rotate(Vector3.up, vectorAction[3] * rotationSpeed);
     }
 
@@ -101,13 +107,17 @@ public class BattleAgent: Agent
         EnvironmentParameters = Academy.Instance.EnvironmentParameters;
     }
 
+    /* Controls: WASD to move, Q and R to turn, Space to shoot */
     public override void Heuristic(float[] actionsOut)
     {
         actionsOut[0] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+
         //Side momentum
         actionsOut[1] = Input.GetAxis("Horizontal");
+
         //Forward momentum
         actionsOut[2] = Input.GetAxis("Vertical");
+
         //rotation
         float rotation = 0f;
         if (Input.GetKey(KeyCode.Q)) rotation = -1f;
@@ -117,11 +127,13 @@ public class BattleAgent: Agent
 
     public override void OnEpisodeBegin()
     {
+        //not sure about this?
         OnEnvironmentReset?.Invoke();
 
         //Load Parameter from Curciulum
         minStepsBetweenShots = Mathf.FloorToInt(EnvironmentParameters.GetWithDefault("shootingFrequenzy", 30f));
 
+        //set starting point
         transform.position = StartingPosition;
         Rb.velocity = Vector3.zero;
         ShotAvaliable = true;
@@ -130,14 +142,20 @@ public class BattleAgent: Agent
     public void RegisterKill()
     {
         score++;
-        AddReward(1.0f / EnvironmentParameters.GetWithDefault("amountZombies", 4f));
+        //AddReward(1.0f / EnvironmentParameters.GetWithDefault("amountZombies", 4f));
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("enemy"))
-        {
-            //enemyManager.SetEnemiesActive();
+        //if (other.gameObject.CompareTag("enemy"))
+        //{
+        //    //enemyManager.SetEnemiesActive();
+        //    AddReward(-1f);
+        //    EndEpisode();
+        //}
+
+        // If agent gets touched by a projectile
+        if (other.gameObject.CompareTag("projectile")) {
             AddReward(-1f);
             EndEpisode();
         }
