@@ -6,9 +6,10 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 /*
- https://github.com/Sebastian-Schuchmann/A.I.-Shooting-Game-ML-Agents-Unity-Example/blob/master/A.I.%20Shooting%20Game/Assets/Scripts/ShootingAgent.cs
-     */
-public class ShooterAgent : Agent
+ Based on https://github.com/Sebastian-Schuchmann/A.I.-Shooting-Game-ML-Agents-Unity-Example for now.
+ Replace progressively with our own stuff.
+*/
+public class BattleAgent: Agent
 {
     public int score = 0;
     public float speed = 3f;
@@ -64,6 +65,7 @@ public class ShooterAgent : Agent
 
     private void FixedUpdate()
     {
+        RequestDecision();
         if (!ShotAvaliable)
         {
             StepsUntilShotIsAvaliable--;
@@ -97,10 +99,10 @@ public class ShooterAgent : Agent
 
     public override void Heuristic(float[] actionsOut)
     {
-        actionsOut[0] = Input.GetKey(KeyCode.P) ? 1f : 0f;
-        actionsOut[2] = Input.GetAxis("Horizontal");
+        actionsOut[0] = Input.GetKey(KeyCode.Space) ? 1f : 0f;
+        actionsOut[3] = Input.GetAxis("Horizontal");
         //actionsOut[1] = -Input.GetAxis("Vertical");
-        actionsOut[3] = Input.GetAxis("Vertical");
+        actionsOut[2] = Input.GetAxis("Vertical");
     }
 
     public override void OnEpisodeBegin()
