@@ -89,12 +89,31 @@ public class BattleAgent: Agent
             Shoot();
         }
         //Modulate for Max speed! Do here to prevent ai from cheating...
-        Vector3 movementVector = new Vector3(vectorAction[1],0f, vectorAction[2]);
-        movementVector = Vector3.ClampMagnitude(movementVector,1f);
+        Vector3 movementVector = new Vector3(vectorAction[1], 0f, vectorAction[2]);
+        movementVector = Vector3.ClampMagnitude(movementVector, 1f);
 
         Rb.velocity = new Vector3(movementVector.x * speed, 0f, movementVector.z * speed);
         //Rb.AddForce(movementVector * speed);
         transform.Rotate(Vector3.up, vectorAction[3] * rotationSpeed);
+
+        //direct movements
+        //if (vectorAction[1] <= -0.5f)
+        //{
+        //    transform.position += Time.deltaTime * speed * Vector3.left;
+        //}
+        //else if (vectorAction[1] >= 0.5f)
+        //{
+        //    transform.position += Time.deltaTime * speed * Vector3.right;
+        //}
+
+        //if (vectorAction[2] <= -0.5f)
+        //{
+        //    transform.position += Time.deltaTime * speed * Vector3.back;
+        //}
+        //else if (vectorAction[2] >= 0.5f)
+        //{
+        //    transform.position += Time.deltaTime * speed * Vector3.forward;
+        //}
     }
 
     public override void Initialize()
@@ -123,6 +142,9 @@ public class BattleAgent: Agent
         if (Input.GetKey(KeyCode.Q)) rotation = -1f;
         else if(Input.GetKey(KeyCode.E)) rotation = 1f;
         actionsOut[3] = rotation;
+
+
+        // New movement
     }
 
     public override void OnEpisodeBegin()

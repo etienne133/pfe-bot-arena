@@ -59,4 +59,4 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Custom ignores
-pfe-bot-arena\Assets\BatleArenaV1\config\results
+results
