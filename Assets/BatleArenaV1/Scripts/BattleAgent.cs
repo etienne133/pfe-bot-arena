@@ -94,6 +94,7 @@ public class BattleAgent: Agent
         // Can be changed to take less decisions if we want
         RequestDecision();
 
+        //limit shots.
         if (!ShotAvaliable)
         {
             StepsUntilShotIsAvaliable--;
@@ -180,7 +181,7 @@ public class BattleAgent: Agent
         OnEnvironmentReset?.Invoke();
 
         //Load Parameter from Curciulum
-        minStepsBetweenShots = Mathf.FloorToInt(EnvironmentParameters.GetWithDefault("shootingFrequenzy", 30f));
+        //minStepsBetweenShots = Mathf.FloorToInt(EnvironmentParameters.GetWithDefault("shootingFrequenzy", 30f));
 
         //set starting point
         transform.position = StartingPosition;
@@ -194,6 +195,7 @@ public class BattleAgent: Agent
         //TODO: Environment parameters with config
         Debug.Log("kill registered");
         AddReward(1.0f);
+        EndEpisode();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -214,4 +216,9 @@ public class BattleAgent: Agent
         //}
     }
 
+    public void projectileHitWall()
+    {
+        Debug.Log("Projectile Hit the wall");
+        AddReward(-0.1f);
+    }
 }

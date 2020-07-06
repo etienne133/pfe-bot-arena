@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour
     private Rigidbody Rigidbody;
     private Vector3 Direction;
 
+    private GameController gameController;
+
     void SelfDestruct()
     {
         Destroy(this.gameObject);
@@ -23,6 +25,22 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
-        Invoke(nameof(SelfDestruct), 1f);
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+        if (gameController == null)
+        {
+            Debug.Log("Cannot find 'GameController' script");
+        }
+        //Invoke(nameof(SelfDestruct), 1f);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("wall"))
+        {
+            gameController.projectileHitWall();
+        }
     }
 }
