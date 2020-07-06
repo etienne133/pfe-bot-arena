@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
 
             //Destroy the enemy
             Destroy(gameObject);
+
+            gameController.enemyDead();
         }
     }
 }

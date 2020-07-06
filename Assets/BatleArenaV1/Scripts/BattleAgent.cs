@@ -192,6 +192,7 @@ public class BattleAgent: Agent
     {
         //AddReward(1.0f / EnvironmentParameters.GetWithDefault("amountZombies", 4f));
         //TODO: Environment parameters with config
+        Debug.Log("kill registered");
         AddReward(1.0f);
     }
 
