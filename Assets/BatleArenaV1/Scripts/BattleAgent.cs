@@ -21,7 +21,7 @@ public class BattleAgent: Agent
     public int damage = 100;
 
     public Projectile projectile;
-    //public EnemyManager enemyManager;
+    public GameController gameController;
 
     private bool ShotAvaliable = true;
     private int StepsUntilShotIsAvaliable = 0;
@@ -32,30 +32,52 @@ public class BattleAgent: Agent
 
     public event Action OnEnvironmentReset;
 
+    private float nextFire;
+    private Boolean canFire;
+    public float fireRate;
+
+    void Update()
+    {
+        if (canFire && Time.time > nextFire)
+        {
+            //Cooldown
+            nextFire = Time.time + fireRate;
+
+            //Spawn
+            var spawnedProjectile = Instantiate(projectile, shootingPoint.position, Quaternion.Euler(0f, -90f, 0f));
+            spawnedProjectile.SetDirection(transform.forward);
+
+            canFire = false;
+            //Audiosound if wanted
+            //GetComponent<AudioSource>().Play();
+        }
+    }
     private void Shoot()
     {
-        if (!ShotAvaliable)
-            return;
+        canFire = true;
+        //if (!ShotAvaliable)
+        //    return;
 
-        var layerMask = 1 << LayerMask.NameToLayer("Enemy");
-        var direction = transform.forward;
+        //var layerMask = 1 << LayerMask.NameToLayer("Enemy");
+        //var direction = transform.forward;
 
-        var spawnedProjectile = Instantiate(projectile, shootingPoint.position, Quaternion.Euler(0f, -90f, 0f));
-        spawnedProjectile.SetDirection(direction);
+        //var spawnedProjectile = Instantiate(projectile, shootingPoint.position, Quaternion.Euler(0f, -90f, 0f));
+        //spawnedProjectile.SetDirection(direction);
 
-        // If we see an enemy...
-        Debug.DrawRay(transform.position, direction, Color.blue, 1f);
-        if (Physics.Raycast(shootingPoint.position, direction, out var hit, 200f, layerMask))
-        {
-            //hit.transform.GetComponent<Enemy>().GetShot(damage, this);
-        }
-        else
-        {
-            AddReward(-0.033f);
-        }
+        // We'll use layer mask when we need to see through walls!!
 
-        ShotAvaliable = false;
-        StepsUntilShotIsAvaliable = minStepsBetweenShots;
+        //Debug.DrawRay(transform.position, direction, Color.blue, 1f);
+        //if (Physics.Raycast(shootingPoint.position, direction, out var hit, 200f, layerMask))
+        //{
+        //    //hit.transform.GetComponent<Enemy>().GetShot(damage, this);
+        //}
+        //else
+        //{
+        //    AddReward(-0.033f);
+        //}
+
+        //ShotAvaliable = false;
+        //StepsUntilShotIsAvaliable = minStepsBetweenShots;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -86,7 +108,12 @@ public class BattleAgent: Agent
     {
         if (Mathf.RoundToInt(vectorAction[0]) >= 1)
         {
-            Shoot();
+            canFire = true;
+            //Shoot();
+        }
+        else
+        {
+            canFire = false;
         }
         //Modulate for Max speed! Do here to prevent ai from cheating...
         Vector3 movementVector = new Vector3(vectorAction[1], 0f, vectorAction[2]);
@@ -163,8 +190,9 @@ public class BattleAgent: Agent
 
     public void RegisterKill()
     {
-        score++;
         //AddReward(1.0f / EnvironmentParameters.GetWithDefault("amountZombies", 4f));
+        //TODO: Environment parameters with config
+        AddReward(1.0f);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -176,10 +204,13 @@ public class BattleAgent: Agent
         //    EndEpisode();
         //}
 
-        // If agent gets touched by a projectile
-        if (other.gameObject.CompareTag("projectile")) {
-            AddReward(-1f);
-            EndEpisode();
-        }
+        // If agent gets touched by a projectile, die.
+        //if (other.gameObject.CompareTag("projectile"))
+        //{
+        //    Debug.Log("Dead");
+        //    AddReward(-1f);
+        //    EndEpisode();
+        //}
     }
+
 }
