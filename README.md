@@ -3,7 +3,6 @@ pfe bot arena
 
 ## Startup (what I use)
 start python env from main folder:
-..\UnityProjects\PythonEnv\BattleBotsVenv\Scripts\Activate
 ..\PythonEnv\BattleBotsVenv\Scripts\Activate
 
 Start listening without curriculum port:

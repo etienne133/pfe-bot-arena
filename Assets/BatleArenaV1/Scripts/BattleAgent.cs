@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Numerics;
 using Unity.Mathematics;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
-/*
- Based on https://github.com/Sebastian-Schuchmann/A.I.-Shooting-Game-ML-Agents-Unity-Example for now.
- Replace progressively with our own stuff.
-*/
+
+
 public class BattleAgent: Agent
 {
     public int score = 0;
@@ -48,8 +45,6 @@ public class BattleAgent: Agent
             spawnedProjectile.SetDirection(transform.forward);
 
             canFire = false;
-            //Audiosound if wanted
-            //GetComponent<AudioSource>().Play();
         }
     }
     private void Shoot()
@@ -87,6 +82,8 @@ public class BattleAgent: Agent
 
         //consider it's own position.
         sensor.AddObservation(this.transform.position);
+        var distance = gameController.distanceToEnemy().magnitude;
+        sensor.AddObservation(distance);
     }
 
     private void FixedUpdate()
@@ -103,7 +100,12 @@ public class BattleAgent: Agent
                 ShotAvaliable = true;
         }
 
-        AddReward(-1f / MaxStep);
+        AddReward(-1f / this.MaxStep);
+        var distance = gameController.distanceToEnemy().magnitude;
+        if (distance >= 1f && distance <= 8f)
+        {
+            AddReward(0.1f);
+        }
     }
     public override void OnActionReceived(float[] vectorAction)
     {
@@ -121,27 +123,8 @@ public class BattleAgent: Agent
         movementVector = Vector3.ClampMagnitude(movementVector, 1f);
 
         Rb.velocity = new Vector3(movementVector.x * speed, 0f, movementVector.z * speed);
-        //Rb.AddForce(movementVector * speed);
         transform.Rotate(Vector3.up, vectorAction[3] * rotationSpeed);
 
-        //direct movements
-        //if (vectorAction[1] <= -0.5f)
-        //{
-        //    transform.position += Time.deltaTime * speed * Vector3.left;
-        //}
-        //else if (vectorAction[1] >= 0.5f)
-        //{
-        //    transform.position += Time.deltaTime * speed * Vector3.right;
-        //}
-
-        //if (vectorAction[2] <= -0.5f)
-        //{
-        //    transform.position += Time.deltaTime * speed * Vector3.back;
-        //}
-        //else if (vectorAction[2] >= 0.5f)
-        //{
-        //    transform.position += Time.deltaTime * speed * Vector3.forward;
-        //}
     }
 
     public override void Initialize()
@@ -218,7 +201,6 @@ public class BattleAgent: Agent
 
     public void projectileHitWall()
     {
-        Debug.Log("Projectile Hit the wall");
-        AddReward(-0.1f);
+        AddReward(-0.05f);
     }
 }

@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
         }
         if (gameController == null)
         {
-            Debug.Log("Cannot find 'GameController' script");
+            Debug.LogError("Cannot find 'GameController' script");
         }
         //Invoke(nameof(SelfDestruct), 1f);
     }

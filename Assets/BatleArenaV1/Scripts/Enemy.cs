@@ -8,15 +8,6 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
-        if (gameControllerObject != null)
-        {
-            gameController = gameControllerObject.GetComponent<GameController>();
-        }
-        if (gameController == null)
-        {
-            Debug.Log("Cannot find 'GameController' script");
-        }
     }
 
     // Update is called once per frame
@@ -29,7 +20,6 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("projectile"))
         {
-            Debug.Log("Collision detected");
             //Destroy the projectile
             Destroy(collision.gameObject);
 
@@ -38,5 +28,9 @@ public class Enemy : MonoBehaviour
 
             gameController.enemyDead();
         }
+    }
+
+    public void setGameController(GameController gc) {
+        gameController = gc;
     }
 }
