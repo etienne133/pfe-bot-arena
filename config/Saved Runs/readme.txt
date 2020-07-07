@@ -1,0 +1,1 @@
+You can but this in the "results" folder to use tensorboard, or run it in here
