@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public int TeamID { get; set; }
+
     private Rigidbody Rigidbody;
     private Vector3 Direction;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using Unity.Mathematics;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
@@ -9,6 +10,7 @@ using UnityEngine;
 
 public class BattleAgent: Agent
 {
+    [SerializeField] public int teamID = 0;
     public int score = 0;
     public float speed = 3f;
     public float rotationSpeed = 3f;
@@ -43,6 +45,7 @@ public class BattleAgent: Agent
             //Spawn
             var spawnedProjectile = Instantiate(projectile, shootingPoint.position, Quaternion.Euler(0f, -90f, 0f));
             spawnedProjectile.SetDirection(transform.forward);
+            spawnedProjectile.GetComponent<Projectile>().TeamID = this.teamID;
 
             canFire = false;
         }
@@ -191,12 +194,17 @@ public class BattleAgent: Agent
         //}
 
         // If agent gets touched by a projectile, die.
-        //if (other.gameObject.CompareTag("projectile"))
-        //{
-        //    Debug.Log("Dead");
-        //    AddReward(-1f);
-        //    EndEpisode();
-        //}
+        if (other.gameObject.CompareTag("projectile"))
+        {   
+            Projectile projectile = other.gameObject.GetComponent<Projectile>();
+
+            if (projectile.TeamID != this.teamID)
+            {
+                Debug.Log("Dead");
+                AddReward(-1f);
+                EndEpisode();
+            }
+        }
     }
 
     public void projectileHitWall()

@@ -257,7 +257,7 @@ MonoBehaviour:
     VectorActionSize: 04000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 5022602860645237092, guid: 0e20b51ea697c9d4ba248e87cf8d3201, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 0ec62b7161d791d4b8a73a9bd6d60b68, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: BattleLearning
