@@ -26,13 +26,14 @@ public class Enemy : MonoBehaviour
 
             if (projectile.TeamID != this.teamID)
             {
+                gameController.playerDead(this.teamID, projectile.TeamID);
+
                 //Destroy the projectile
                 Destroy(collision.gameObject);
 
                 //Destroy the enemy
                 Destroy(gameObject);
-                Debug.Log("proj team ID:" + projectile.TeamID + "/n player teamID: " + this.teamID);
-                gameController.enemyDead();
+
             }
 
             ////Destroy the projectile

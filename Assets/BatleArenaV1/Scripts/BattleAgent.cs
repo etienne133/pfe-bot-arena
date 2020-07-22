@@ -201,8 +201,11 @@ public class BattleAgent: Agent
             if (projectile.TeamID != this.teamID)
             {
                 Debug.Log("Dead");
+
+                // Put a check if(trainMode){}
                 AddReward(-1f);
                 EndEpisode();
+                //----------------------------
             }
         }
     }

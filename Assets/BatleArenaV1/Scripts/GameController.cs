@@ -38,10 +38,15 @@ public class GameController : MonoBehaviour
         enemy.setGameController(this);
         enemyList.Add(enemy);
     }
-
-    public void enemyDead() {
+    
+    // Change to PlayerDead to be more general, for validation
+    public void playerDead(int deadTeamID, int projectileTeamID) {
         Debug.Log("Enemy killed");
+
+        // if trainingmode = true
         theAgent.RegisterKill();
+
+        // will likely be removed
         spawnEnemy();
     }
 

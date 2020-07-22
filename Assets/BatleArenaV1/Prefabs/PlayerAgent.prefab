@@ -279,6 +279,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
+  teamID: 0
   score: 0
   speed: 20
   rotationSpeed: 10
@@ -303,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: RayPerceptionSensor
   m_DetectableTags:
-  - enemy
+  - Player
   - wall
   m_RaysPerDirection: 14
   m_MaxRayDegrees: 140
