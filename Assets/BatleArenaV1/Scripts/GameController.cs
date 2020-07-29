@@ -12,7 +12,10 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject[] enemySpawnPoints;
     [SerializeField] float enemyColliderSize = 3; //Use for curriculum training
     [SerializeField] string controllerName;
+    [SerializeField] int numberOfObstacle;
     [SerializeField] List<IPlayer> playerList;
+    [SerializeField] List<GameObject> ObstacleSpawnPoints;
+    [SerializeField] GameObject ObstaclePrefab;
     private DataController dataController;
     // Start is called before the first frame update
     void Start()
@@ -28,9 +31,10 @@ public class GameController : MonoBehaviour
         }
 
         //initialize data controller
-        dataController = new DataController();
+        dataController = this.gameObject.AddComponent<DataController>();
         List<int> playIDList = playerList.Select(player => player.PlayerID).ToList();
         dataController.initializePlayers(playIDList);
+        spawnOBstacles();
         spawnEnemy();
     }
 
@@ -73,6 +77,17 @@ public class GameController : MonoBehaviour
         var agentPos = theAgent.transform.position;
         var enemyPos = enemyList[0].transform.position;
         return agentPos - enemyPos;
+
+    }
+
+    public void spawnOBstacles()
+    {
+        List<GameObject> selectedPoints = ObstacleSpawnPoints.OrderBy(x => Random.value * int.MaxValue).Take(numberOfObstacle).ToList();
+        selectedPoints.ForEach(x => Debug.Log($"x: {x.transform.position.x} y: {x.transform.position.y}"));
+        selectedPoints.ForEach(spawn =>
+        {
+            Instantiate(ObstaclePrefab, spawn.transform.position, Quaternion.Euler(0f, Random.value * 360, 0f));
+        });
 
     }
 }

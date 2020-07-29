@@ -198,7 +198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 79917947}
   m_LocalRotation: {x: 0.5620834, y: 0, z: 0, w: 0.8270806}
-  m_LocalPosition: {x: 0, y: 16.4, z: -7.18}
+  m_LocalPosition: {x: 0, y: 39.8, z: -19.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -481,6 +481,17 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyColliderSize
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3307127374554666473, guid: 6acdab7d17330ea4c8e02b612285235f,
+        type: 3}
+      propertyPath: ObstaclePrefab
+      value: 
+      objectReference: {fileID: 988756342466328902, guid: 030d51c6e9c0335469cb0609f2499d84,
+        type: 3}
+    - target: {fileID: 3307127374554666473, guid: 6acdab7d17330ea4c8e02b612285235f,
+        type: 3}
+      propertyPath: numberOfObstacle
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6acdab7d17330ea4c8e02b612285235f, type: 3}
