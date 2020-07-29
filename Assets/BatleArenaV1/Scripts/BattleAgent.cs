@@ -8,9 +8,13 @@ using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 
-public class BattleAgent: Agent
+public class BattleAgent: Agent, IPlayer
 {
     [SerializeField] public int teamID = 0;
+    [SerializeField] public int playerID = 0;
+    public int PlayerID { get; set; }
+    public int TeamID { get; set; }
+
     public int score = 0;
     public float speed = 3f;
     public float rotationSpeed = 3f;
@@ -35,6 +39,12 @@ public class BattleAgent: Agent
     private Boolean canFire;
     public float fireRate;
 
+    void Start()
+    {
+        PlayerID = playerID;
+        TeamID = teamID;
+    }
+
     void Update()
     {
         if (canFire && Time.time > nextFire)
@@ -45,7 +55,7 @@ public class BattleAgent: Agent
             //Spawn
             var spawnedProjectile = Instantiate(projectile, shootingPoint.position, Quaternion.Euler(0f, -90f, 0f));
             spawnedProjectile.SetDirection(transform.forward);
-            spawnedProjectile.GetComponent<Projectile>().TeamID = this.teamID;
+            spawnedProjectile.GetComponent<Projectile>().TeamID = this.TeamID;
 
             canFire = false;
         }
@@ -198,7 +208,7 @@ public class BattleAgent: Agent
         {   
             Projectile projectile = other.gameObject.GetComponent<Projectile>();
 
-            if (projectile.TeamID != this.teamID)
+            if (projectile.TeamID != this.TeamID)
             {
                 Debug.Log("Dead");
 

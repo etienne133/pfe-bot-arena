@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -11,9 +12,13 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject[] enemySpawnPoints;
     [SerializeField] float enemyColliderSize = 3; //Use for curriculum training
     [SerializeField] string controllerName;
+    [SerializeField] List<IPlayer> playerList;
+    private DataController dataController;
     // Start is called before the first frame update
     void Start()
     {
+        playerList = new List<IPlayer>();
+
         enemyList = new List<Enemy>();
         if (!theAgent) {
             theAgent = GetComponent<BattleAgent>();
@@ -21,6 +26,11 @@ public class GameController : MonoBehaviour
         if (enemySpawnPoints.Length < 1) {
             Debug.LogError("No ennemi spawn points");
         }
+
+        //initialize data controller
+        dataController = new DataController();
+        List<int> playIDList = playerList.Select(player => player.PlayerID).ToList();
+        dataController.initializePlayers(playIDList);
         spawnEnemy();
     }
 
