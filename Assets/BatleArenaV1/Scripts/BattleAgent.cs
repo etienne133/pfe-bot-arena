@@ -24,7 +24,7 @@ public class BattleAgent: Agent, IPlayer
     public int damage = 100;
 
     public Projectile projectile;
-    public GameController gameController;
+    public GameController gameController { get; set; }
 
     private bool ShotAvaliable = true;
     private int StepsUntilShotIsAvaliable = 0;

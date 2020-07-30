@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,15 +8,23 @@ public class GameController : MonoBehaviour
 
     [SerializeField] BattleAgent theAgent;
     [SerializeField] Enemy enemyPrefab;
+    [SerializeField] GameObject AIPlayerPrefab;
     [SerializeField] List<Enemy> enemyList;
     [SerializeField] GameObject[] enemySpawnPoints;
+    [SerializeField] GameObject[] PlayerSpawnLocation;
+    [SerializeField] int numberOfAIPlayer= 4;
     [SerializeField] float enemyColliderSize = 3; //Use for curriculum training
-    [SerializeField] string controllerName;
-    [SerializeField] int numberOfObstacle;
+    //[SerializeField] string controllerName;
+    [SerializeField] int numberOfObstacle = 10;
     [SerializeField] List<IPlayer> playerList;
     [SerializeField] List<GameObject> ObstacleSpawnPoints;
     [SerializeField] GameObject ObstaclePrefab;
+    [SerializeField] Boolean isTrainingModeOn = true;
+    [SerializeField] int numberOfValidationGames = 1;
+
+    private List<GameObject> spawnedObstacles;
     private DataController dataController;
+    private int gamesPlayed = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +42,7 @@ public class GameController : MonoBehaviour
         dataController = this.gameObject.AddComponent<DataController>();
         List<int> playIDList = playerList.Select(player => player.PlayerID).ToList();
         dataController.initializePlayers(playIDList);
-        spawnOBstacles();
-        spawnEnemy();
+        StartGame();
     }
 
     // Update is called once per frame
@@ -45,7 +52,7 @@ public class GameController : MonoBehaviour
     }
 
     public void spawnEnemy() {
-        var spawnLocation = enemySpawnPoints[Random.Range(0, enemySpawnPoints.Length)];
+        var spawnLocation = enemySpawnPoints[UnityEngine.Random.Range(0, enemySpawnPoints.Length)];
         // todo:face the character
         var enemy = Instantiate(enemyPrefab, spawnLocation.transform.position, Quaternion.Euler(0f, -90f, 0f));
         enemy.GetComponent<CapsuleCollider>().radius = enemyColliderSize;
@@ -60,7 +67,9 @@ public class GameController : MonoBehaviour
         // if trainingmode = true
         theAgent.RegisterKill();
 
-        // will likely be removed
+
+
+        // will likely be removed. respawn player?
         spawnEnemy();
     }
 
@@ -70,24 +79,60 @@ public class GameController : MonoBehaviour
     }
 
     public Vector3 distanceToEnemy() {
-        if (!enemyList[0])
-        {
-            return new Vector3(10, 10, 10);
-        }
-        var agentPos = theAgent.transform.position;
-        var enemyPos = enemyList[0].transform.position;
-        return agentPos - enemyPos;
+        //if (!enemyList[0])
+        //{
+        //    return new Vector3(10, 10, 10);
+        //}
+        //var agentPos = theAgent.transform.position;
+        //var enemyPos = enemyList[0].transform.position;
+        //return agentPos - enemyPos;
+        return new Vector3(10, 10, 10);
 
     }
 
     public void spawnOBstacles()
     {
-        List<GameObject> selectedPoints = ObstacleSpawnPoints.OrderBy(x => Random.value * int.MaxValue).Take(numberOfObstacle).ToList();
-        selectedPoints.ForEach(x => Debug.Log($"x: {x.transform.position.x} y: {x.transform.position.y}"));
+        List<GameObject> selectedPoints = ObstacleSpawnPoints.OrderBy(x => UnityEngine.Random.value * int.MaxValue).Take(numberOfObstacle).ToList();
         selectedPoints.ForEach(spawn =>
         {
-            Instantiate(ObstaclePrefab, spawn.transform.position, Quaternion.Euler(0f, Random.value * 360, 0f));
+            //Spawn obstacle and keep reference in list
+            spawnedObstacles.Add(Instantiate(ObstaclePrefab, spawn.transform.position+new Vector3(0,0.2f,0), Quaternion.Euler(0f, UnityEngine.Random.value * 360, 0f)));
         });
 
+    }
+
+    public void StartGame()
+    {
+        spawnedObstacles = new List<GameObject>();
+        spawnOBstacles();
+        spawnAIPlayers();
+        //spawnEnemy();
+
+        if (isTrainingModeOn)
+        {
+
+        }
+    }
+
+    public void EndGame()
+    {
+        gamesPlayed++;
+        //cleanUp Obstacles
+        spawnedObstacles.ForEach(x => Destroy(x));
+
+        if (!isTrainingModeOn && gamesPlayed < numberOfValidationGames) {
+            StartGame();
+        } 
+    }
+
+    public void spawnAIPlayers()
+    {
+        for(int i = 0; i < numberOfAIPlayer; i++)
+        {
+            BattleAgent player = Instantiate(AIPlayerPrefab, PlayerSpawnLocation[i].transform.position, Quaternion.Euler(0f, -90f, 0f)).GetComponent<BattleAgent>();
+            player.gameController = this;
+            player.playerID = i;
+            player.teamID = i;
+        }
     }
 }
