@@ -22,13 +22,17 @@ public class DataController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerdictionary = new Dictionary<int, PlayerData>();
     }
 
     public void initializePlayers(List<int> playerIDs)
     {
+        playerdictionary = new Dictionary<int, PlayerData>();
         playerIDs.ForEach(id => {
-            playerdictionary.Add(id, new PlayerData());
+            PlayerData player = new PlayerData
+            {
+                playerID = id
+            };
+            playerdictionary.Add(id, player);
         }) ;
     }
     public void registerKill(int killerId, int victimID)

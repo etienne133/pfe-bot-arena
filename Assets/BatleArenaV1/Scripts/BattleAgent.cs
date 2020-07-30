@@ -10,8 +10,8 @@ using UnityEngine;
 
 public class BattleAgent: Agent, IPlayer
 {
-    [SerializeField] public int teamID = 0;
-    [SerializeField] public int playerID = 0;
+    //[SerializeField] public int teamID = 0;
+    //[SerializeField] public int playerID = 0;
     public int PlayerID { get; set; }
     public int TeamID { get; set; }
 
@@ -41,8 +41,9 @@ public class BattleAgent: Agent, IPlayer
 
     void Start()
     {
-        PlayerID = playerID;
-        TeamID = teamID;
+        //PlayerID = playerID;
+        //TeamID = teamID;
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     void Update()
@@ -56,6 +57,7 @@ public class BattleAgent: Agent, IPlayer
             var spawnedProjectile = Instantiate(projectile, shootingPoint.position, Quaternion.Euler(0f, -90f, 0f));
             spawnedProjectile.SetDirection(transform.forward);
             spawnedProjectile.GetComponent<Projectile>().TeamID = this.TeamID;
+            spawnedProjectile.GetComponent<Projectile>().PlayerID = this.PlayerID;
 
             canFire = false;
         }

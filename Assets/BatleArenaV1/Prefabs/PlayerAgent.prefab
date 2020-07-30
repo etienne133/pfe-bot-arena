@@ -76,12 +76,12 @@ PrefabInstance:
     - target: {fileID: 4791900290527065430, guid: 4c4f68db34f69044a9b81c524d4748bb,
         type: 3}
       propertyPath: m_BehaviorType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7222182398213027107, guid: 4c4f68db34f69044a9b81c524d4748bb,
         type: 3}
       propertyPath: m_RayLength
-      value: 102
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c4f68db34f69044a9b81c524d4748bb, type: 3}

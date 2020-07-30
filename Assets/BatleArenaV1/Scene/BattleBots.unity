@@ -639,5 +639,10 @@ PrefabInstance:
       propertyPath: numberOfAIPlayer
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 459023578692892724, guid: 2acadc27a26d4974dacb38a302f40476,
+        type: 3}
+      propertyPath: numberOfValidationGames
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2acadc27a26d4974dacb38a302f40476, type: 3}
