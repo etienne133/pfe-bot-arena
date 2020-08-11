@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
+using System.Transactions;
 using Unity.Mathematics;
 using Unity.MLAgents;
+using Unity.MLAgents.Policies;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
@@ -45,7 +48,6 @@ public class BattleAgent: Agent, IPlayer
         //TeamID = teamID;
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
-
     void Update()
     {
         if (canFire && Time.time > nextFire)
@@ -97,8 +99,11 @@ public class BattleAgent: Agent, IPlayer
 
         //consider it's own position.
         sensor.AddObservation(this.transform.position);
-        var distance = gameController.distanceToEnemy().magnitude;
-        sensor.AddObservation(distance);
+
+        // Consider distance to ennemies
+        var distances = gameController.distanceToEnemies(PlayerID);
+        distances.ForEach(distVector => sensor.AddObservation(distVector.magnitude));
+        
     }
 
     private void FixedUpdate()
@@ -116,11 +121,26 @@ public class BattleAgent: Agent, IPlayer
         }
 
         AddReward(-1f / this.MaxStep);
-        var distance = gameController.distanceToEnemy().magnitude;
-        if (distance >= 1f && distance <= 8f)
-        {
-            AddReward(0.1f);
-        }
+
+        // Reward based on distance to ennemy
+        var distances = gameController.distanceToEnemies(PlayerID);
+        distances.ForEach(distVector => {
+
+            Debug.Log(distVector.magnitude);
+            AddReward(0.1f / distVector.magnitude);
+            //if (distVector.magnitude <= 8)
+            //{
+            //    AddReward(0.1f);
+            //}
+        });
+
+        //gameController.distanceToEnemies(PlayerID).ForEach(distVector => {
+        //    // Give reward for proximity
+        //    if (distVector.magnitude <= 8f)
+        //    {
+        //        AddReward(0.1f);
+        //    }
+        //});
     }
     public override void OnActionReceived(float[] vectorAction)
     {

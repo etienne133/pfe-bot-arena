@@ -412,18 +412,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ced811f520d1940852a86440bc4350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theAgent: {fileID: 0}
   enemyPrefab: {fileID: 5322641372795489558, guid: f550a23de8817964da8f30b2ba33c6a0,
     type: 3}
   AIPlayerPrefab: {fileID: 85980591022771414, guid: 036b10d41cfaebe469b8d929f0e2a65d,
     type: 3}
-  enemyList: []
-  enemySpawnPoints:
-  - {fileID: 459023578678555304}
-  - {fileID: 459023579337732065}
-  - {fileID: 459023579147261993}
   PlayerSpawnLocation: []
-  numberOfAIPlayer: 0
+  numberOfAIPlayer: 2
   enemyColliderSize: 2
   numberOfObstacle: 10
   ObstacleSpawnPoints:

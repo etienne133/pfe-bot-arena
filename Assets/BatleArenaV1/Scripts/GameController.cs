@@ -87,15 +87,17 @@ public class GameController : MonoBehaviour
         battleAgentDictionary[playerID].projectileHitWall();
     }
 
-    public Vector3 distanceToEnemy() {
+    public List<Vector3> distanceToEnemies(int playerID) {
         //if (!enemyList[0])
         //{
         //    return new Vector3(10, 10, 10);
         //}
         //var agentPos = theAgent.transform.position;
         //var enemyPos = enemyList[0].transform.position;
-        //return agentPos - enemyPos;
-        return new Vector3(10, 10, 10);
+        //return age
+        BattleAgent ba = battleAgentDictionary[playerID];
+        List<Vector3> enemies = battleAgentDictionary.Values.Where(x=> x.PlayerID != playerID).Select(x => x.transform.position - ba.transform.position).ToList();
+        return enemies;
 
     }
 
