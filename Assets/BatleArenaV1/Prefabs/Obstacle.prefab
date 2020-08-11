@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8061422786521158463}
   - component: {fileID: 3720261381124568707}
   - component: {fileID: 5254522880036647810}
+  - component: {fileID: 5227132339711053640}
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: wall
@@ -27,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 988756342466328902}
-  m_LocalRotation: {x: 0, y: -0.3599967, z: 0, w: 0.9329536}
-  m_LocalPosition: {x: 5.168783, y: 0.37, z: -1.4348164}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.168783, y: 1, z: -1.4348164}
   m_LocalScale: {x: 6, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -42.2, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1172067758947641838
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -105,8 +106,20 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &5227132339711053640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988756342466328902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de63ec78a51383a488a3dbfcf25b7f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4877760173055768962
+--- !u!1001 &8913320874030515383
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -67,25 +67,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAgent
       objectReference: {fileID: 0}
-    - target: {fileID: 4791900290527065430, guid: 4c4f68db34f69044a9b81c524d4748bb,
+    - target: {fileID: 4791900290527065429, guid: 4c4f68db34f69044a9b81c524d4748bb,
         type: 3}
-      propertyPath: m_Model
+      propertyPath: gameController
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4791900290527065430, guid: 4c4f68db34f69044a9b81c524d4748bb,
         type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 0e20b51ea697c9d4ba248e87cf8d3201,
+        type: 3}
     - target: {fileID: 4791900290527065430, guid: 4c4f68db34f69044a9b81c524d4748bb,
         type: 3}
-      propertyPath: m_BrainParameters.VectorObservationSize
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7222182398213027107, guid: 4c4f68db34f69044a9b81c524d4748bb,
-        type: 3}
-      propertyPath: m_RayLength
-      value: 50
+      propertyPath: m_BehaviorType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c4f68db34f69044a9b81c524d4748bb, type: 3}

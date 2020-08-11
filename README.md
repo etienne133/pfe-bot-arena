@@ -7,6 +7,7 @@ start python env from main folder:
 
 ## Start listening without curriculum port:
 mlagents-learn config\battlebots.yaml --run-id battlebots_01 --train
+mlagents-learn config\battlebots.yaml --run-id battlebots_4player_01 --train
 
 ## Open Tensorboard:
 tensorboard --logdir=results

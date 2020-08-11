@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public int PlayerID { get; set; }
     public int TeamID { get; set; }
 
     private Rigidbody Rigidbody;
@@ -42,7 +43,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("wall"))
         {
-            gameController.projectileHitWall();
+            gameController.projectileHitWall(this.PlayerID);
         }
     }
 }
