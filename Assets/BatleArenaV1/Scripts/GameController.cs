@@ -31,7 +31,6 @@ public class GameController : MonoBehaviour
     {
         //playerList = new List<IPlayer>();
         battleAgentDictionary = new Dictionary<int, BattleAgent>();
-
         //enemyList = new List<Enemy>();
         //if (!theAgent) {
         //    theAgent = GetComponent<BattleAgent>();
@@ -104,6 +103,7 @@ public class GameController : MonoBehaviour
     public void spawnOBstacles()
     {
         List<GameObject> selectedPoints = ObstacleSpawnPoints.OrderBy(x => UnityEngine.Random.value * int.MaxValue).Take(numberOfObstacle).ToList();
+
         selectedPoints.ForEach(spawn =>
         {
             //Spawn obstacle and keep reference in list
@@ -153,6 +153,7 @@ public class GameController : MonoBehaviour
             player.gameController = this;
             player.PlayerID = i;
             player.TeamID = i;
+            player.GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().TeamId=i;
             battleAgentDictionary.Add(i, player);
         }
     }

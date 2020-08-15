@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Transactions;
 using Unity.Mathematics;
@@ -15,6 +16,9 @@ public class BattleAgent: Agent, IPlayer
 {
     //[SerializeField] public int teamID = 0;
     //[SerializeField] public int playerID = 0;
+
+    BehaviorParameters agentBehaviorParam;
+    
     public int PlayerID { get; set; }
     public int TeamID { get; set; }
 
@@ -47,6 +51,9 @@ public class BattleAgent: Agent, IPlayer
         //PlayerID = playerID;
         //TeamID = teamID;
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
+        //BehaviorParameters myBehaviorParam = gameObject.GetComponent<BehaviorParameters>();
+        //myBehaviorParam.TeamId = TeamID;
     }
     void Update()
     {
@@ -124,15 +131,19 @@ public class BattleAgent: Agent, IPlayer
 
         // Reward based on distance to ennemy
         var distances = gameController.distanceToEnemies(PlayerID);
-        distances.ForEach(distVector => {
 
-            Debug.Log(distVector.magnitude);
-            AddReward(0.1f / distVector.magnitude);
+
+        float minDist = float.MaxValue;
+        distances.ForEach(distVector => {
+            if (distVector.magnitude < minDist)
+                minDist = distVector.magnitude;
+            //AddReward(0.01f / distVector.magnitude);
             //if (distVector.magnitude <= 8)
             //{
-            //    AddReward(0.1f);
+            //    AddReward(0.1f / distVector.magnitude);
             //}
         });
+        AddReward(0.01f / minDist);
 
         //gameController.distanceToEnemies(PlayerID).ForEach(distVector => {
         //    // Give reward for proximity
